@@ -1,5 +1,4 @@
-# 🚀 More OpenAI Agents SDK Project Ideas
-    📈 AI Startup Advisor
+# 🚀 📈 AI Startup Advisor
     Analyze a startup idea and generate:
 
     - business model
