@@ -1,4 +1,4 @@
-from agents import Agent, set_tracing_disabled, function_tool, Runner
+from agents import Agent, set_tracing_disabled, Runner
 from agents.extensions.models.litellm_model import LitellmModel
 import os
 gemini_api_key = os.getenv('GEMINI_API_KEY')
@@ -15,6 +15,7 @@ set_tracing_disabled(disabled=True)
 #     swotAnalysis:str
 #     gtmStrategyDevelopment:str
 #     recommendTechStack:str
+#     tips:str
 
 generate_business_model_deve_analyst_agent : Agent = Agent(
     name="Business Model Development Analyst",
@@ -74,6 +75,8 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
         2. Conduct a SWOT analysis
         3. Provide a GTM (Go-to-Market) strategy
         4. Recommend a suitable tech stack
+
+        Note: Respond with complete layout plane / structure / business plane and generate a detailed article.
         """,
     model=LitellmModel(model="gemini/gemini-2.0-flash", api_key=gemini_api_key),
     tools = [
@@ -94,9 +97,9 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
             tool_description="Recommends a suitable technology stack (frontend, backend, database, DevOps, and AI/ML if applicable) based on the startup's needs."
         )
     ],
-    # output_type= AgentOutput
+    # output_type= AgentOutput,
 
 )
 async def main_agent_response(user_query:str):
     result = await Runner.run(MainAgent_AIStartupAdvisor,user_query)
-    return result.final_output
+    return result.final_output.model_dump()
