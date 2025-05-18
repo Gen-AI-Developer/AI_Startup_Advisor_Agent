@@ -14,5 +14,5 @@ async def root():
 
 @app.get("/{message}")
 async def agentic_response(message:str):
-    result = await myagents.general_agent_response(message)
+    result = await myagents.MainAgent_AIStartupAdvisor(message)
     return {"RESPONSE":result}
