@@ -8,7 +8,20 @@ agent : Agent = Agent(
     instructions="You Are Helpfull Assistant, you answer every question will short and breif to the point answer.",
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
-business_model_dev_analyst_agent : Agent = Agent(
+MainAgent_AIStartupAdvisor : Agent= Agent( 
+    name="AI Startup Tech Advisor",
+    instructions="""
+        You are an intelligent startup advisor that coordinates between multiple expert agents.
+        Given a startup idea, you must:
+        1. Generate a business model
+        2. Conduct a SWOT analysis
+        3. Provide a GTM (Go-to-Market) strategy
+        4. Recommend a suitable tech stack
+        """,
+    model=LitellmModel(model="gemini/gemini-2.0-flash", api_key=gemini_api_key),
+)
+
+business_model_deve_analyst_agent : Agent = Agent(
     name="Business Model Development Analyst",
     instructions="",
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
@@ -18,8 +31,8 @@ swot_analysis_agent : Agent = Agent(
     instructions="",
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
-gtm_strategy_agent : Agent = Agent(
-    name="GTM Strategy Analyst Agent",
+gtm_strategy_deve_agent : Agent = Agent(
+    name="GTM Strategy Development Analyst Agent",
     instructions="",
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
