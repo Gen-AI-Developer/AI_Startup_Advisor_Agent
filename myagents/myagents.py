@@ -9,7 +9,7 @@ agent : Agent = Agent(
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
 
-business_model_deve_analyst_agent : Agent = Agent(
+generate_business_model_deve_analyst_agent : Agent = Agent(
     name="Business Model Development Analyst",
     instructions="""
         You are a business strategist AI Agent. Given a startup idea, generate a business model canvas including:
@@ -22,7 +22,7 @@ business_model_deve_analyst_agent : Agent = Agent(
         """,
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
-swot_analysis_agent : Agent = Agent(
+generate_swot_analysis_agent : Agent = Agent(
     name="SWOT Analysis Agent",
     instructions="""
         You are a market analysis agent. For a given startup idea, return a SWOT analysis with:
@@ -33,7 +33,7 @@ swot_analysis_agent : Agent = Agent(
         """,
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
-gtm_strategy_deve_agent : Agent = Agent(
+generate_gtm_strategy_deve_agent : Agent = Agent(
     name="GTM Strategy Development Analyst Agent",
     instructions="""
         You are a go-to-market strategist Agent. For a given startup idea, provide a GTM strategy including:
@@ -44,7 +44,7 @@ gtm_strategy_deve_agent : Agent = Agent(
         """,
     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
     )
-tech_stack_agent : Agent = Agent(
+recommend_tech_stack_agent : Agent = Agent(
     name="Tech Stack Analyst Agent",
     instructions="""
         You are a technology stack expert analyst advisor. Based on a startup idea, suggest a full tech stack:
@@ -61,8 +61,8 @@ tech_stack_agent : Agent = Agent(
 MainAgent_AIStartupAdvisor : Agent= Agent( 
     name="AI Startup Tech Advisor",
     instructions="""
-        You are an intelligent startup advisor that coordinates between multiple expert agents.
-        Given a startup idea, you must:
+        You are an intelligent startup advisor that coordinates between multiple expert agents / Tools.
+        For a given startup idea, you must:
         1. Generate a business model
         2. Conduct a SWOT analysis
         3. Provide a GTM (Go-to-Market) strategy
@@ -70,20 +70,20 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
         """,
     model=LitellmModel(model="gemini/gemini-2.0-flash", api_key=gemini_api_key),
     tools = [
-        business_model_deve_analyst_agent.as_tool(
-            tool_name="generate_business_model",
+        generate_business_model_deve_analyst_agent.as_tool(
+            tool_name="generate_business_model_deve_analyst_agent",
             tool_description="Generates a detailed business model canvas including value proposition, customer segments, revenue streams, and cost structure based on the startup idea."
         ),
-        swot_analysis_agent.as_tool(
-            tool_name="perform_swot_analysis",
+        generate_swot_analysis_agent .as_tool(
+            tool_name="generate_swot_analysis_agent",
             tool_description="Performs a full SWOT (Strengths, Weaknesses, Opportunities, Threats) analysis for a given startup idea to identify strategic factors."
         ),
-        gtm_strategy_deve_agent.as_tool(
-            tool_name="develop_gtm_strategy",
+        generate_gtm_strategy_deve_agent.as_tool(
+            tool_name="generate_gtm_strategy_deve_agent",
             tool_description="Creates a go-to-market strategy including launch plan, target audience, marketing channels, and sales funnel for a startup idea."
         ),
-        tech_stack_agent.as_tool(
-            tool_name="recommend_tech_stack",
+        recommend_tech_stack_agent.as_tool(
+            tool_name="recommend_tech_stack_agent",
             tool_description="Recommends a suitable technology stack (frontend, backend, database, DevOps, and AI/ML if applicable) based on the startup's needs."
         )
     ]
