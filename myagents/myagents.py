@@ -84,7 +84,7 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
         5. Recommend a suitable tech stack
         6. Provide tips and suggestions for the startup
 
-        Note: Respond with complete layout plane / structure / business plane and generate a detailed article.
+        Note: Respond with complete layout plane / structure / business plane and generate a detailed structure output as described.
         """,
     model=MODEL,
     output_type=AgentOutput,
@@ -109,6 +109,6 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
     # output_type= AgentOutput,
 
 )
-async def main_agent_response(user_query:str):
+async def main_agent_response(user_query:str)-> dict:
     result = await Runner.run(MainAgent_AIStartupAdvisor,user_query)
     return result.final_output.model_dump()

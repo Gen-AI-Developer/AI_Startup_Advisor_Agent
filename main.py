@@ -13,6 +13,9 @@ async def root():
     return {"message": "Welcome to AI Startup Tech Advisor API"}
 
 @app.get("/{message}")
-async def agentic_response(message:str):
-    result = await myagents.main_agent_response(message)
+async def agentic_response(message:str) -> dict:
+    """
+    This endpoint receives a message and returns a response from the main agent.
+    """
+    result:dict = await myagents.main_agent_response(message)
     return {"RESPONSE":result}
