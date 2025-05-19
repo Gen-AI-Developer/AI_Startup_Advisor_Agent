@@ -102,4 +102,4 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
 )
 async def main_agent_response(user_query:str):
     result = await Runner.run(MainAgent_AIStartupAdvisor,user_query)
-    return result.final_output.model_dump()
+    return result.final_output
