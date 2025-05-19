@@ -3,19 +3,25 @@ from agents.extensions.models.litellm_model import LitellmModel
 import os
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 from pydantic import BaseModel
+import litellm
+litellm._turn_on_debug()
+MODEL = LitellmModel(
+    model="gemini/gemini-2.0-flash",
+    api_key=gemini_api_key,
+    )
 set_tracing_disabled(disabled=True)
 # agent : Agent = Agent(
 #     name="Assitant",
 #     instructions="You Are Helpfull Assistant, you answer every question will short and breif to the point answer.",
 #     model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
 #     )
-# class AgentOutput(BaseModel):
-#     overview: str
-#     businessModelDevelopment:str
-#     swotAnalysis:str
-#     gtmStrategyDevelopment:str
-#     recommendTechStack:str
-#     tips:str
+class AgentOutput(BaseModel):
+        overview_of_the_startup_idea : str
+        business_model : str
+        swot_analysis : str
+        gtm_strategy : str
+        suitable_tech_stack : str
+        tips_and_suggestions_for_the_startup : str
 
 generate_business_model_deve_analyst_agent : Agent = Agent(
     name="Business Model Development Analyst",
@@ -28,7 +34,7 @@ generate_business_model_deve_analyst_agent : Agent = Agent(
         - Channels
         - Cost Structure
         """,
-    model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
+    # model=MODEL
     )
 generate_swot_analysis_agent : Agent = Agent(
     name="SWOT Analysis Agent",
@@ -39,7 +45,7 @@ generate_swot_analysis_agent : Agent = Agent(
         - Opportunities
         - Threats
         """,
-    model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
+    # model=MODEL,
     )
 generate_gtm_strategy_deve_agent : Agent = Agent(
     name="GTM Strategy Development Analyst Agent",
@@ -50,7 +56,7 @@ generate_gtm_strategy_deve_agent : Agent = Agent(
         - Launch Strategy
         - Sales Funnel
         """,
-    model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
+    # model=MODEL,
     )
 recommend_tech_stack_agent : Agent = Agent(
     name="Tech Stack Analyst Agent",
@@ -63,28 +69,31 @@ recommend_tech_stack_agent : Agent = Agent(
         - DevOps (GitOps,Google)
         - Optional: AI/ML tools if needed
         """,
-    model=LitellmModel(model="gemini/gemini-2.0-flash",api_key=gemini_api_key),
+    # model=MODEL,
     )
 
 MainAgent_AIStartupAdvisor : Agent= Agent( 
     name="AI Startup Tech Advisor",
     instructions="""
         You are an intelligent startup advisor that coordinates between multiple expert agents / Tools.
-        For a given startup idea, you must:
-        1. Generate a business model
-        2. Conduct a SWOT analysis
-        3. Provide a GTM (Go-to-Market) strategy
-        4. Recommend a suitable tech stack
+        For a given startup idea, you must return:
+        1. A detialed Overview of the startup idea
+        2. Generate a business model
+        3. Conduct a SWOT analysis
+        4. Provide a GTM (Go-to-Market) strategy
+        5. Recommend a suitable tech stack
+        6. Provide tips and suggestions for the startup
 
         Note: Respond with complete layout plane / structure / business plane and generate a detailed article.
         """,
-    model=LitellmModel(model="gemini/gemini-2.0-flash", api_key=gemini_api_key),
+    model=MODEL,
+    output_type=AgentOutput,
     tools = [
         generate_business_model_deve_analyst_agent.as_tool(
             tool_name="generate_business_model_deve_analyst_agent",
             tool_description="Generates a detailed business model canvas including value proposition, customer segments, revenue streams, and cost structure based on the startup idea."
         ),
-        generate_swot_analysis_agent .as_tool(
+        generate_swot_analysis_agent.as_tool(
             tool_name="generate_swot_analysis_agent",
             tool_description="Performs a full SWOT (Strengths, Weaknesses, Opportunities, Threats) analysis for a given startup idea to identify strategic factors."
         ),
@@ -102,4 +111,4 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
 )
 async def main_agent_response(user_query:str):
     result = await Runner.run(MainAgent_AIStartupAdvisor,user_query)
-    return result.final_output
+    return result.final_output.model_dump()
