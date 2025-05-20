@@ -17,5 +17,5 @@ async def agentic_response(message:str) -> dict:
     """
     This endpoint receives a message and returns a response from the main agent.
     """
-    result:dict = await myagents.main_agent_response(message)
+    result = await myagents.main_agent_response(message)
     return {"RESPONSE":result}
