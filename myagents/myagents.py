@@ -3,8 +3,8 @@ from agents.extensions.models.litellm_model import LitellmModel
 import os
 gemini_api_key = os.getenv('GEMINI_API_KEY')
 from pydantic import BaseModel
-import litellm
-litellm._turn_on_debug()
+# import litellm
+# litellm._turn_on_debug()
 MODEL = LitellmModel(
     model="gemini/gemini-2.0-flash",
     api_key=gemini_api_key,
