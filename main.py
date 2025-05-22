@@ -12,10 +12,10 @@ app = FastAPI(
 async def root():
     return {"message": "Welcome to AI Startup Tech Advisor API"}
 
-@app.get("/{message}")
+@app.get("/message/{message}")
 async def agentic_response(message:str) -> dict:
     """
     This endpoint receives a message and returns a response from the main agent.
     """
     result = await myagents.main_agent_response(message)
-    return {"RESPONSE":result}
+    return {"message":result}
