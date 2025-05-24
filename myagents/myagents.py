@@ -142,6 +142,6 @@ MainAgent_AIStartupAdvisor : Agent= Agent(
     # output_type= AgentOutput,
 
 )
-async def main_agent_response(user_query:str):
-    result = await Runner.run(MainAgent_AIStartupAdvisor,user_query)
-    return result.final_output
+def main_agent_response(user_query:str):
+    result =  Runner.run_streamed(MainAgent_AIStartupAdvisor,user_query)
+    return result
