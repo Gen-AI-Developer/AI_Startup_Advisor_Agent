@@ -1,8 +1,9 @@
 from agents import Agent, set_tracing_disabled, Runner
 from agents.extensions.models.litellm_model import LitellmModel
+import _asyncio
 import os
 gemini_api_key = os.getenv('GEMINI_API_KEY')
-from pydantic import BaseModel
+# from pydantic import BaseModel
 # import litellm
 # litellm._turn_on_debug()
 MODEL = LitellmModel(

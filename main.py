@@ -1,8 +1,10 @@
 from fastapi import FastAPI
 from myagents import myagents
+from agents import Agent, Runner, AsyncOpenAI, OpenAIChatCompletionsModel
+from agents.run import RunConfig
 from fastapi.responses import StreamingResponse
 from openai.types.responses import ResponseTextDeltaEvent
-
+import asyncio
 app = FastAPI(
     title="AI Startup Tech Advisor",
     description="An AI-powered advisor for startup technology decisions",
